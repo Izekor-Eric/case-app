@@ -1,41 +1,18 @@
-import React, { Component } from 'react';
-import { View, Text } from 'react-native';
-import MotionDetector from 'components/motionDetector';
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import Home from "./screens/HomeScreen";
+import Level from "./screens/LevelScreen";
+import Measurement from "./screens/MeasurementScreen";
 
-export default class App extends Component {
-  constructor(props) {
-    super(props);
-    this.motionDetector = new MotionDetector(1000); // Update interval in milliseconds
-    this.state = {
-      pitch: 0,
-      roll: 0,
-      zAcceleration: 0
-    };
-  }
+const Stack = createNativeStackNavigator();
 
-  componentDidMount() {
-    this.motionDetector.start();
-    this.motionDetector.onUpdate = () => {
-      this.setState({
-        pitch: this.motionDetector.pitch,
-        roll: this.motionDetector.roll,
-        zAcceleration: this.motionDetector.zAcceleration
-      });
-    };
-  }
-
-  componentWillUnmount() {
-    this.motionDetector.stop();
-  }
-
-  render() {
-    const { pitch, roll, zAcceleration } = this.state;
-    return (
-      <View>
-        <Text>Pitch: {pitch}</Text>
-        <Text>Roll: {roll}</Text>
-        <Text>Z Acceleration: {zAcceleration}</Text>
-      </View>
-    );
-  }
-}
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen name="Home" component={Home} options={{ title: "Home" }} />
+        <Stack.Screen name="Level Screen" component={Level} options={{ title: "Level Screen" }} />
+        <Stack.Screen name="Measurement Screen" component={Measurement} options={{ title: "Measurement Screen" }} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  )};
